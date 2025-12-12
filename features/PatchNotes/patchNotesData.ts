@@ -6,6 +6,14 @@ export interface PatchNote {
 
 export const patchNotesData: PatchNote[] = [
   {
+    version: '0.1.10',
+    date: 'December 12, 2025',
+    changes: [
+      'Blitz mode now starts more smoothly (reduced micro-stutter) and handles canceling more reliably',
+      'Fixed light theme card/border color generation so cards remain visible on bright backgrounds',
+    ]
+  },
+  {
     version: '0.1.9',
     date: 'December 5, 2025',
     changes: [

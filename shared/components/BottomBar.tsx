@@ -19,7 +19,7 @@ import useCrazyModeStore from '@/features/CrazyMode/store/useCrazyModeStore';
 import useDecorationsStore from '@/shared/store/useDecorationsStore';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-const APP_VERSION = '0.1.9 (alpha)';
+const APP_VERSION = '0.1.10 (alpha)';
 
 type SocialLink = {
   icon: IconDefinition | LucideIcon;
@@ -51,12 +51,12 @@ const socialLinks: SocialLink[] = [
 
 const MobileBottomBar = () => {
   const { playClick } = useClick();
-  const theme = usePreferencesStore(state => state.theme);
-  const font = usePreferencesStore(state => state.font);
-  const isCrazyMode = useCrazyModeStore(state => state.isCrazyMode);
-  const activeThemeId = useCrazyModeStore(state => state.activeThemeId);
+  const theme = usePreferencesStore((state) => state.theme);
+  const font = usePreferencesStore((state) => state.font);
+  const isCrazyMode = useCrazyModeStore((state) => state.isCrazyMode);
+  const activeThemeId = useCrazyModeStore((state) => state.activeThemeId);
   const expandDecorations = useDecorationsStore(
-    state => state.expandDecorations
+    (state) => state.expandDecorations
   );
   const effectiveTheme = isCrazyMode && activeThemeId ? activeThemeId : theme;
 
@@ -79,7 +79,7 @@ const MobileBottomBar = () => {
 
   return (
     <div
-      id='main-bottom-bar'
+      id="main-bottom-bar"
       className={clsx(
         'fixed bottom-0 left-0 right-0 z-50 max-md:hidden',
         'bg-[var(--background-color)] border-t-1 border-[var(--border-color)]',
@@ -87,7 +87,7 @@ const MobileBottomBar = () => {
         expandDecorations && 'hidden'
       )}
     >
-      <div className='flex items-center gap-3'>
+      <div className="flex items-center gap-3">
         {socialLinks.map((link, idx) => {
           const Icon = link.icon as LucideIcon;
           const isDonate = link.special === 'donate';
@@ -96,7 +96,7 @@ const MobileBottomBar = () => {
             <FontAwesomeIcon
               key={idx}
               icon={link.icon as IconDefinition}
-              size='sm'
+              size="sm"
               className={baseIconClasses}
               onClick={() => handleClick(link.url)}
             />
@@ -115,11 +115,11 @@ const MobileBottomBar = () => {
         })}
       </div>
 
-      <div className='flex items-center gap-2 text-xs text-[var(--secondary-color)]'>
+      <div className="flex items-center gap-2 text-xs text-[var(--secondary-color)]">
         {infoItems.map((item, idx) => {
           const isVersionItem = idx === infoItems.length - 1;
           const content = (
-            <span className='flex gap-1'>
+            <span className="flex gap-1">
               <item.icon size={16} />
               {item.text}
             </span>
@@ -129,8 +129,8 @@ const MobileBottomBar = () => {
             <React.Fragment key={idx}>
               {isVersionItem ? (
                 <Link
-                  href='/patch-notes'
-                  className='flex gap-1 hover:text-[var(--main-color)] hover:cursor-pointer '
+                  href="/patch-notes"
+                  className="flex gap-1 hover:text-[var(--main-color)] hover:cursor-pointer "
                   onClick={playClick}
                 >
                   <item.icon size={16} />
