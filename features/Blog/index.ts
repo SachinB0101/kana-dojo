@@ -29,3 +29,26 @@ export {
 export { getBlogPosts, sortPostsByDate } from './lib/getBlogPosts';
 export { getBlogPost, postExists, getPostLocales } from './lib/getBlogPost';
 export { extractHeadings, generateHeadingId } from './lib/extractHeadings';
+
+// SEO and Structured Data
+export {
+  generateBlogMetadata,
+  type MetadataOptions
+} from './lib/generateBlogMetadata';
+export {
+  generateArticleSchema,
+  type ArticleSchema,
+  type ArticleSchemaOptions
+} from './lib/generateArticleSchema';
+export {
+  generateBreadcrumbSchema,
+  type BreadcrumbSchema,
+  type BreadcrumbSchemaOptions,
+  type BreadcrumbListItem
+} from './lib/generateBreadcrumbSchema';
+export {
+  generateHreflang,
+  generateHreflangLinks,
+  type HreflangTag,
+  type HreflangOptions
+} from './lib/generateHreflang';
