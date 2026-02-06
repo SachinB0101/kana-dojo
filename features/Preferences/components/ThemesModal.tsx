@@ -207,7 +207,7 @@ export default function ThemesModal({ open, onOpenChange }: ThemesModalProps) {
                 return (
                   <div key={group.name} className='space-y-3'>
                     <div className='flex items-center gap-2 text-lg font-medium text-(--main-color)'>
-                      <Icon size={20} className='text-(--main-color)' />
+                      <Icon size={20} className='text-(--secondary-color)' />
                       {group.name === 'Premium' ? (
                         <span>
                           <span className='text-(--main-color)'>Premium</span>
