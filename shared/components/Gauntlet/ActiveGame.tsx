@@ -23,6 +23,7 @@ import {
 import Stars from '@/shared/components/Game/Stars';
 import ProgressBar from '@/shared/components/Game/ProgressBar';
 import { useClick } from '@/shared/hooks/useAudio';
+import type { GauntletGameMode } from './types';
 
 // Duolingo-like spring animation config
 const springConfig = {
@@ -213,6 +214,9 @@ interface ActiveGameProps<T> {
   // Dojo type for layout customization
   dojoType: 'kana' | 'kanji' | 'vocabulary';
 
+  // Game mode
+  gameMode: GauntletGameMode;
+
   // Progress
   currentIndex: number;
   totalQuestions: number;
@@ -239,6 +243,12 @@ interface ActiveGameProps<T> {
   onSubmit: (selectedOption: string, isCorrect: boolean) => void;
   getCorrectOption: (question: T, isReverse?: boolean) => string;
 
+  // Type mode
+  checkAnswer?: (question: T, answer: string, isReverse?: boolean) => boolean;
+  getCorrectAnswer?: (question: T, isReverse?: boolean) => string;
+  userAnswer?: string;
+  setUserAnswer?: (answer: string) => void;
+
   // Navigation
   onCancel: () => void;
 
@@ -248,6 +258,7 @@ interface ActiveGameProps<T> {
 
 export default function ActiveGame<T>({
   dojoType,
+  gameMode,
   currentIndex,
   totalQuestions,
   lives,
@@ -260,11 +271,18 @@ export default function ActiveGame<T>({
   items,
   onSubmit,
   getCorrectOption,
+  checkAnswer,
+  getCorrectAnswer,
+  userAnswer = '',
+  setUserAnswer,
   onCancel,
   questionKey,
 }: ActiveGameProps<T>) {
   const { playClick } = useClick();
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const isTypeMode = gameMode === 'Type';
 
   // Internal game state - reset when question changes
   const [placedTiles, setPlacedTiles] = useState<string[]>([]);
@@ -284,21 +302,29 @@ export default function ActiveGame<T>({
     setIsChecking(false);
     setIsCelebrating(false);
     setCheckedResult(null);
-  }, [questionKey]);
+    if (isTypeMode && setUserAnswer) {
+      setUserAnswer('');
+      // Focus the input after a small delay to allow render
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [questionKey, isTypeMode, setUserAnswer]);
 
-  // Keyboard shortcut for Enter/Space to trigger button
-  // Only fires when no interactive element (input, textarea, select, button) is focused,
-  // or when the focused element IS our action button, to avoid interfering with other controls.
+  // Keyboard shortcut for Enter/Space to trigger the action button.
+  // In Type mode, Enter triggers Check/Continue from the input field.
+  // Space is only intercepted when no interactive element is focused.
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.key === 'Enter' ||
-        event.code === 'Space' ||
-        event.key === ' '
-      ) {
-        const active = document.activeElement;
-        const tag = active?.tagName?.toLowerCase();
-        // Allow if no interactive element is focused, or if our button is focused
+      const active = document.activeElement;
+      const tag = active?.tagName?.toLowerCase();
+      const isEnter = event.key === 'Enter';
+      const isSpace = event.code === 'Space' || event.key === ' ';
+
+      if (isEnter) {
+        // Enter always triggers the button (including from the text input)
+        event.preventDefault();
+        buttonRef.current?.click();
+      } else if (isSpace) {
+        // Space only triggers when no interactive element is focused
         if (
           active === buttonRef.current ||
           !tag ||
@@ -320,30 +346,56 @@ export default function ActiveGame<T>({
     return getCorrectOption(currentQuestion, isReverseActive);
   }, [currentQuestion, getCorrectOption, isReverseActive]);
 
-  // Handle Check button
+  // Handle Check button — supports both Pick (tiles) and Type (text input) modes
   const handleCheck = useCallback(() => {
-    if (placedTiles.length === 0 || !currentQuestion) return;
+    if (!currentQuestion) return;
 
-    playClick();
-    setIsChecking(true);
+    if (isTypeMode) {
+      // Type mode: check the typed answer
+      const trimmed = userAnswer.trim();
+      if (!trimmed) return;
 
-    // Correct if exactly one tile placed and it matches the correct answer
-    const isCorrect =
-      placedTiles.length === 1 && placedTiles[0] === correctAnswer;
+      playClick();
+      setIsChecking(true);
 
-    // Lock in the result at check time so it can't be changed by tile swapping
-    setCheckedResult({
-      selectedOption: placedTiles[0] || '',
-      isCorrect,
-    });
+      const isCorrect = checkAnswer
+        ? checkAnswer(currentQuestion, trimmed, isReverseActive)
+        : false;
 
-    if (isCorrect) {
-      setBottomBarState('correct');
-      setIsCelebrating(true);
+      setCheckedResult({
+        selectedOption: trimmed,
+        isCorrect,
+      });
+
+      if (isCorrect) {
+        setBottomBarState('correct');
+        setIsCelebrating(true);
+      } else {
+        setBottomBarState('wrong');
+      }
     } else {
-      setBottomBarState('wrong');
+      // Pick mode: check the placed tile
+      if (placedTiles.length === 0) return;
+
+      playClick();
+      setIsChecking(true);
+
+      const isCorrect =
+        placedTiles.length === 1 && placedTiles[0] === correctAnswer;
+
+      setCheckedResult({
+        selectedOption: placedTiles[0] || '',
+        isCorrect,
+      });
+
+      if (isCorrect) {
+        setBottomBarState('correct');
+        setIsCelebrating(true);
+      } else {
+        setBottomBarState('wrong');
+      }
     }
-  }, [placedTiles, currentQuestion, playClick, correctAnswer]);
+  }, [placedTiles, currentQuestion, playClick, correctAnswer, isTypeMode, userAnswer, checkAnswer, isReverseActive]);
 
   // Handle Continue/Next button (auto-advance regardless of correctness)
   const handleContinue = useCallback(() => {
@@ -378,7 +430,9 @@ export default function ActiveGame<T>({
     return null;
   }
 
-  const canCheck = placedTiles.length > 0 && !isChecking;
+  const canCheck = isTypeMode
+    ? userAnswer.trim().length > 0 && !isChecking
+    : placedTiles.length > 0 && !isChecking;
   const showContinue = bottomBarState === 'correct';
   const showTryAgain = bottomBarState === 'wrong';
 
@@ -481,44 +535,79 @@ export default function ActiveGame<T>({
               </motion.div>
             </div>
 
-            {/* Answer Row Area - shows placed tiles */}
-            <div className='flex w-full flex-col items-center'>
-              <div
-                className={clsx(
-                  'flex w-full items-center border-b-2 border-(--border-color) px-2 pb-2 md:w-3/4 lg:w-2/3 xl:w-1/2',
-                  answerRowMinHeight,
-                )}
-              >
-                <motion.div
-                  className='flex flex-row flex-wrap justify-start gap-3'
-                  variants={celebrationContainerVariants}
-                  initial='idle'
-                  animate={isCelebrating ? 'celebrate' : 'idle'}
+            {/* Type Mode: Text Input */}
+            {isTypeMode ? (
+              <div className='flex w-full flex-col items-center'>
+                <div
+                  className={clsx(
+                    'flex w-full items-center px-2 pb-2 md:w-3/4 lg:w-2/3 xl:w-1/2',
+                    answerRowMinHeight,
+                  )}
                 >
-                  {/* Render placed tiles in the answer row */}
-                  {placedTiles.map(char => {
-                    // Get display text - use renderOption if available
-                    const displayChar = renderOption
-                      ? String(renderOption(char, items, isReverseActive))
-                      : char;
-                    return (
-                      <ActiveTile
-                        key={`answer-tile-${char}`}
-                        id={`tile-${char}`}
-                        char={displayChar}
-                        onClick={() => handleTileClick(char)}
-                        isDisabled={isChecking}
-                        tileSizeClass={tileSizeClass}
-                        variants={celebrationBounceVariants}
-                        motionStyle={{ transformOrigin: '50% 100%' }}
-                      />
-                    );
-                  })}
-                </motion.div>
+                  <input
+                    ref={inputRef}
+                    type='text'
+                    value={userAnswer}
+                    onChange={e => setUserAnswer?.(e.target.value)}
+                    disabled={isChecking}
+                    autoComplete='off'
+                    autoCorrect='off'
+                    autoCapitalize='off'
+                    spellCheck={false}
+                    placeholder='Type your answer...'
+                    className={clsx(
+                      'w-full rounded-xl border-2 bg-transparent px-4 py-3 text-center text-2xl outline-none transition-colors sm:text-3xl',
+                      isChecking && checkedResult?.isCorrect
+                        ? 'border-green-500 text-green-500'
+                        : isChecking && !checkedResult?.isCorrect
+                          ? 'border-red-500 text-red-500'
+                          : 'border-(--border-color) text-(--text-color) focus:border-(--main-color)',
+                    )}
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <>
+                {/* Answer Row Area - shows placed tiles */}
+                <div className='flex w-full flex-col items-center'>
+                  <div
+                    className={clsx(
+                      'flex w-full items-center border-b-2 border-(--border-color) px-2 pb-2 md:w-3/4 lg:w-2/3 xl:w-1/2',
+                      answerRowMinHeight,
+                    )}
+                  >
+                    <motion.div
+                      className='flex flex-row flex-wrap justify-start gap-3'
+                      variants={celebrationContainerVariants}
+                      initial='idle'
+                      animate={isCelebrating ? 'celebrate' : 'idle'}
+                    >
+                      {/* Render placed tiles in the answer row */}
+                      {placedTiles.map(char => {
+                        // Get display text - use renderOption if available
+                        const displayChar = renderOption
+                          ? String(
+                              renderOption(char, items, isReverseActive),
+                            )
+                          : char;
+                        return (
+                          <ActiveTile
+                            key={`answer-tile-${char}`}
+                            id={`tile-${char}`}
+                            char={displayChar}
+                            onClick={() => handleTileClick(char)}
+                            isDisabled={isChecking}
+                            tileSizeClass={tileSizeClass}
+                            variants={celebrationBounceVariants}
+                            motionStyle={{ transformOrigin: '50% 100%' }}
+                          />
+                        );
+                      })}
+                    </motion.div>
+                  </div>
+                </div>
 
-            {/* Available Tiles - 2 rows */}
+                {/* Available Tiles - 2 rows */}
             {(() => {
               const tilesPerRow = 2;
               const topRowTiles = shuffledOptions.slice(0, tilesPerRow);
@@ -578,6 +667,8 @@ export default function ActiveGame<T>({
                 </motion.div>
               ) : null;
             })()}
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
 
@@ -588,7 +679,11 @@ export default function ActiveGame<T>({
           onAction={showContinue || showTryAgain ? handleContinue : handleCheck}
           canCheck={canCheck}
           feedbackTitle={showContinue ? 'Correct!' : 'Wrong!'}
-          feedbackContent=''
+          feedbackContent={
+            showTryAgain && isTypeMode && getCorrectAnswer && currentQuestion
+              ? getCorrectAnswer(currentQuestion, isReverseActive)
+              : ''
+          }
           buttonRef={buttonRef}
           actionLabel={showContinue ? 'next' : showTryAgain ? 'next' : 'check'}
         />

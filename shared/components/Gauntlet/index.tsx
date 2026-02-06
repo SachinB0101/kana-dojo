@@ -97,18 +97,20 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
     selectedSets,
     generateQuestion: _generateQuestion,
     renderQuestion,
-    checkAnswer: _checkAnswer,
-    getCorrectAnswer: _getCorrectAnswer,
+    checkAnswer,
+    getCorrectAnswer,
     generateOptions,
     renderOption,
     getCorrectOption,
-    initialGameMode: _initialGameMode,
+    initialGameMode,
   } = config;
 
   // Game configuration state - initialized from store for all settings
   // The store persists settings across navigation from PreGameScreen to game route
-  // Note: Type mode is not yet implemented in Gauntlet's ActiveGame, so we force Pick mode.
-  const [gameMode, setGameModeState] = useState<GauntletGameMode>('Pick');
+  const [gameMode, setGameModeState] = useState<GauntletGameMode>(() => {
+    const storeMode = gauntletSettings.getGameMode(dojoType);
+    return storeMode || initialGameMode || 'Pick';
+  });
   const [difficulty, setDifficultyState] = useState<GauntletDifficulty>(
     gauntletSettings.getDifficulty(dojoType),
   );
@@ -177,7 +179,7 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
   const [_lifeJustLost, setLifeJustLost] = useState(false);
 
   // Input state
-  const [_userAnswer, setUserAnswer] = useState('');
+  const [userAnswer, setUserAnswer] = useState('');
   const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
   const [_wrongSelectedAnswers, setWrongSelectedAnswers] = useState<string[]>(
     [],
@@ -207,9 +209,9 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
     statsTracking.recordDojoUsed(dojoType);
   }, [dojoType]);
 
-  // Generate options when question changes (always uses Pick/tile mode now)
+  // Generate options when question changes (Pick mode only)
   useEffect(() => {
-    if (currentQuestion && generateOptions && phase === 'playing') {
+    if (currentQuestion && generateOptions && phase === 'playing' && gameMode === 'Pick') {
       const options = generateOptions(
         currentQuestion.item,
         items,
@@ -219,7 +221,7 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
       setShuffledOptions(shuffle(options));
       setWrongSelectedAnswers([]);
     }
-  }, [currentQuestion, generateOptions, items, isReverseActive, phase]);
+  }, [currentQuestion, gameMode, generateOptions, items, isReverseActive, phase]);
 
   // Handle game start
   const handleStart = useCallback(() => {
@@ -254,8 +256,8 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
     setUserAnswer('');
     setWrongSelectedAnswers([]);
 
-    // Generate initial options for the first question
-    if (queue.length > 0 && generateOptions) {
+    // Generate initial options for the first question (Pick mode only)
+    if (queue.length > 0 && generateOptions && gameMode === 'Pick') {
       const firstQuestion = queue[0];
       const options = generateOptions(
         firstQuestion.item,
@@ -271,6 +273,7 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
     items,
     repetitions,
     difficulty,
+    gameMode,
     generateOptions,
     isReverseActive,
     playClick,
@@ -323,8 +326,7 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
         wrongAnswers: actualWrongAnswers,
         accuracy:
           actualCorrectAnswers + actualWrongAnswers > 0
-            ? actualCorrectAnswers /
-              (actualCorrectAnswers + actualWrongAnswers)
+            ? actualCorrectAnswers / (actualCorrectAnswers + actualWrongAnswers)
             : 0,
         bestStreak: actualBestStreak,
         currentStreak: actualCurrentStreak,
@@ -517,7 +519,15 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
           }
         }
 
-        advanceToNextQuestion(lives, true, newCorrectAnswers, wrongAnswers, questionsCompleted, newBestStreak, newCurrentStreak);
+        advanceToNextQuestion(
+          lives,
+          true,
+          newCorrectAnswers,
+          wrongAnswers,
+          questionsCompleted,
+          newBestStreak,
+          newCurrentStreak,
+        );
         return;
       }
 
@@ -544,7 +554,15 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
       setTimeout(() => setLifeJustLost(false), 500);
 
       // On wrong answer, streak resets to 0 — bestStreak stays the same
-      advanceToNextQuestion(newLives, false, correctAnswers, newWrongAnswers, questionsCompletedOnWrong, bestStreak, 0);
+      advanceToNextQuestion(
+        newLives,
+        false,
+        correctAnswers,
+        newWrongAnswers,
+        questionsCompletedOnWrong,
+        bestStreak,
+        0,
+      );
     },
     [
       advanceToNextQuestion,
@@ -637,14 +655,18 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
     );
   }
 
-  // Safety check: ActiveGame requires getCorrectOption for Pick mode
-  if (!getCorrectOption) {
+  // Safety check: Pick mode requires getCorrectOption, Type mode requires checkAnswer
+  if (gameMode === 'Pick' && !getCorrectOption) {
+    return <EmptyState dojoType={dojoType} dojoLabel={dojoLabel} />;
+  }
+  if (gameMode === 'Type' && !checkAnswer) {
     return <EmptyState dojoType={dojoType} dojoLabel={dojoLabel} />;
   }
 
   return (
     <ActiveGame
       dojoType={dojoType}
+      gameMode={gameMode}
       currentIndex={correctAnswers}
       totalQuestions={totalQuestions}
       lives={lives}
@@ -656,7 +678,11 @@ export default function Gauntlet<T>({ config, onCancel }: GauntletProps<T>) {
       renderOption={renderOption}
       items={items}
       onSubmit={handleActiveGameSubmit}
-      getCorrectOption={getCorrectOption}
+      getCorrectOption={getCorrectOption || (() => '')}
+      checkAnswer={checkAnswer}
+      getCorrectAnswer={getCorrectAnswer}
+      userAnswer={userAnswer}
+      setUserAnswer={setUserAnswer}
       onCancel={handleCancel}
       questionKey={questionKey}
     />
