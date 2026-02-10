@@ -763,7 +763,8 @@
       "Kanazawa",
       "Hiroshima"
     ],
-    "correctIndex": 0
+    "correctIndex": 0,
+    "issued": true
   },
   {
     "id": 60,
