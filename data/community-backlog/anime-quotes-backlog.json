@@ -6,7 +6,8 @@
     "english": "Road roller!",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "DIO",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 2,
@@ -15,7 +16,8 @@
     "english": "Yes! Yes! Yes! Yes!",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "DIO",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 3,
@@ -24,7 +26,8 @@
     "english": "Oh? You're approaching me?",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "DIO",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 4,
@@ -33,7 +36,8 @@
     "english": "But I refuse.",
     "anime": "JoJo's Bizarre Adventure: Diamond is Unbreakable",
     "character": "Rohan Kishibe",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 5,
@@ -42,7 +46,8 @@
     "english": "I, Giorno Giovanna, have a dream!",
     "anime": "JoJo's Bizarre Adventure: Golden Wind",
     "character": "Giorno Giovanna",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 6,
@@ -52,7 +57,7 @@
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "Jotaro Kujo",
     "issued": false,
-    "completed": true
+    "completed": false
   },
   {
     "id": 7,
@@ -61,7 +66,8 @@
     "english": "Useless! Useless! Useless!",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "DIO",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 8,
@@ -70,7 +76,8 @@
     "english": "Ora ora ora ora ora!",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "Jotaro Kujo",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 9,
@@ -79,7 +86,8 @@
     "english": "What?!",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "Joseph Joestar",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 10,
@@ -88,7 +96,8 @@
     "english": "Next you'll say, 'Good grief!'",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "Joseph Joestar",
-    "completed": true
+    "completed": false,
+    "issued": false
   },
   {
     "id": 11,
@@ -97,7 +106,8 @@
     "english": "You! You're watching me!",
     "anime": "JoJo's Bizarre Adventure: Stone Ocean",
     "character": "Jolyne Cujoh",
-    "completed": true
+    "completed": false,
+    "issued": false
   },
   {
     "id": 12,
@@ -106,7 +116,8 @@
     "english": "I'm going to stop being human, JoJo!",
     "anime": "JoJo's Bizarre Adventure: Phantom Blood",
     "character": "Dio Brando",
-    "issued": true
+    "issued": false,
+    "completed": false
   },
   {
     "id": 13,
@@ -115,7 +126,8 @@
     "english": "I'm on a different level today!",
     "anime": "JoJo's Bizarre Adventure: Diamond is Unbreakable",
     "character": "Okuyasu Nijimura",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 14,
@@ -124,7 +136,8 @@
     "english": "I will transcend humanity!",
     "anime": "JoJo's Bizarre Adventure: Battle Tendency",
     "character": "Kars",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 15,
@@ -133,7 +146,8 @@
     "english": "Good grief... honestly.",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "Jotaro Kujo",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 16,
@@ -142,7 +156,8 @@
     "english": "But... that's what I like.",
     "anime": "JoJo's Bizarre Adventure: Diamond is Unbreakable",
     "character": "Yoshikage Kira",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 17,
@@ -151,7 +166,8 @@
     "english": "Bucciarati is here!",
     "anime": "JoJo's Bizarre Adventure: Golden Wind",
     "character": "Narancia Ghirga",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 18,
@@ -160,7 +176,8 @@
     "english": "You're already dead.",
     "anime": "Fist of the North Star",
     "character": "Kenshiro",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 19,
@@ -169,7 +186,8 @@
     "english": "What?!",
     "anime": "Fist of the North Star",
     "character": "Shin",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 20,
@@ -178,7 +196,8 @@
     "english": "I'm gonna be King of the Pirates!",
     "anime": "One Piece",
     "character": "Monkey D. Luffy",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 21,
@@ -187,7 +206,8 @@
     "english": "If you give up, that's the end of the game.",
     "anime": "Slam Dunk",
     "character": "Kaede Rukawa",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 22,
@@ -196,7 +216,8 @@
     "english": "Not yet! It's not over yet!",
     "anime": "Mobile Suit Gundam",
     "character": "Char Aznable",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 23,
@@ -205,7 +226,8 @@
     "english": "Dance to my beautiful technique!",
     "anime": "The Prince of Tennis",
     "character": "Keigo Atobe",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 24,
@@ -214,7 +236,8 @@
     "english": "I think you should just laugh.",
     "anime": "Neon Genesis Evangelion",
     "character": "Rei Ayanami",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 25,
@@ -223,7 +246,8 @@
     "english": "I am Gundam!",
     "anime": "Mobile Suit Gundam 00",
     "character": "Setsuna F. Seiei",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 26,
@@ -232,7 +256,8 @@
     "english": "This world is cruel... yet so beautiful.",
     "anime": "Attack on Titan",
     "character": "Mikasa Ackerman",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 27,
@@ -241,7 +266,8 @@
     "english": "Lero lero lero lero.",
     "anime": "JoJo's Bizarre Adventure: Stardust Crusaders",
     "character": "Noriaki Kakyoin",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 28,
@@ -250,7 +276,8 @@
     "english": "Fosh fosh fosh fosh.",
     "anime": "One Piece",
     "character": "Kozuki Sukiyaki",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 29,
@@ -259,7 +286,8 @@
     "english": "Mama mama mama.",
     "anime": "One Piece",
     "character": "Charlotte Linlin (Big Mom)",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 30,
@@ -268,7 +296,8 @@
     "english": "Shishishi!",
     "anime": "One Piece",
     "character": "Monkey D. Luffy",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 31,
@@ -277,7 +306,8 @@
     "english": "Gurararara!",
     "anime": "One Piece",
     "character": "Edward Newgate (Whitebeard)",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 32,
@@ -286,7 +316,8 @@
     "english": "Ze ha ha ha!",
     "anime": "One Piece",
     "character": "Marshall D. Teach (Blackbeard)",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 33,
@@ -295,7 +326,8 @@
     "english": "I never give up, believe it!",
     "anime": "Naruto",
     "character": "Naruto Uzumaki",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 34,
@@ -304,7 +336,8 @@
     "english": "Those who don't take care of their comrades are worse than scum.",
     "anime": "Naruto",
     "character": "Kakashi Hatake",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 35,
@@ -313,7 +346,8 @@
     "english": "A lesson without pain is meaningless.",
     "anime": "Fullmetal Alchemist: Brotherhood",
     "character": "Edward Elric",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 36,
@@ -322,7 +356,8 @@
     "english": "I'll exterminate them! Every last one from this world!",
     "anime": "Attack on Titan",
     "character": "Eren Yeager",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 37,
@@ -331,7 +366,8 @@
     "english": "Don't let anyone else take control of your life and death!",
     "anime": "Demon Slayer: Kimetsu no Yaiba",
     "character": "Tanjiro Kamado",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 38,
@@ -340,7 +376,8 @@
     "english": "Go beyond! Plus Ultra!",
     "anime": "My Hero Academia",
     "character": "All Might",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 39,
@@ -349,7 +386,8 @@
     "english": "Relax, I'm the strongest.",
     "anime": "Jujutsu Kaisen",
     "character": "Satoru Gojo",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 40,
@@ -358,7 +396,8 @@
     "english": "All I want is to live a normal life.",
     "anime": "Chainsaw Man",
     "character": "Denji",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 41,
@@ -367,7 +406,8 @@
     "english": "In the name of the moon, I'll punish you!",
     "anime": "Sailor Moon",
     "character": "Usagi Tsukino",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 42,
@@ -376,7 +416,8 @@
     "english": "I'm just a hero for fun.",
     "anime": "One Punch Man",
     "character": "Saitama",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 43,
@@ -385,7 +426,8 @@
     "english": "As long as I have something to protect, I won't lose.",
     "anime": "Bleach",
     "character": "Ichigo Kurosaki",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 44,
@@ -394,7 +436,8 @@
     "english": "I will become the god of the new world.",
     "anime": "Death Note",
     "character": "Light Yagami",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 45,
@@ -403,7 +446,8 @@
     "english": "Only those prepared to be shot should pull the trigger.",
     "anime": "Code Geass: Lelouch of the Rebellion",
     "character": "Lelouch vi Britannia",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 46,
@@ -412,7 +456,8 @@
     "english": "Who the hell do you think I am!",
     "anime": "Gurren Lagann",
     "character": "Kamina",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 47,
@@ -421,7 +466,8 @@
     "english": "I won't run away anymore!",
     "anime": "Hunter x Hunter",
     "character": "Gon Freecss",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 48,
@@ -430,7 +476,8 @@
     "english": "I mustn't run away!",
     "anime": "Neon Genesis Evangelion",
     "character": "Shinji Ikari",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 49,
@@ -439,7 +486,8 @@
     "english": "Believing in my friends is my magic.",
     "anime": "Fairy Tail",
     "character": "Natsu Dragneel",
-    "completed": false
+    "completed": false,
+    "issued": false
   },
   {
     "id": 50,
@@ -448,7 +496,8 @@
     "english": "The word 'give up' isn't in my dictionary.",
     "anime": "Black Clover",
     "character": "Asta",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 51,
@@ -457,7 +506,8 @@
     "english": "Running away can take courage too.",
     "anime": "Mob Psycho 100",
     "character": "Arataka Reigen",
-    "issued": false
+    "issued": false,
+    "completed": false
   },
   {
     "id": 52,
@@ -466,6 +516,7 @@
     "english": "Lend me your energy!",
     "anime": "Dragon Ball Z",
     "character": "Son Goku",
-    "completed": false
+    "completed": false,
+    "issued": false
   }
 ]

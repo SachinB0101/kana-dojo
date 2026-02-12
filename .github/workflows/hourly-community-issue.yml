@@ -2,7 +2,7 @@ name: Create Community Contribution Issue
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/20 * * * *'
   workflow_dispatch:
     inputs:
       force_type:
