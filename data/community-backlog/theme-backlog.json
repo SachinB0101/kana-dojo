@@ -327,7 +327,9 @@
     "mainColor": "oklch(85.0% 0.155 90.0 / 1)",
     "secondaryColor": "oklch(70.0% 0.120 95.0 / 1)",
     "issued": true,
-    "completed": false
+    "completed": true,
+    "completedBy": "Cima9642",
+    "completedPR": 4794
   },
   {
     "id": "pixel-retro",
